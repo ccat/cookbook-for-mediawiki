@@ -1,0 +1,6 @@
+#!/bin/sh
+
+TDAY=`date +%Y%m%d`
+
+mysqldump -h <%= node[:mediawiki][:dbserver] %>  -u <%= node[:mediawiki][:dbuser] %> -p<%= node[:mediawiki][:dbpass] %> <%= node[:mediawiki][:dbname] %> -c > <%= node[:mediawiki][:backup_folder] %>backup_$TDAY.sql
+

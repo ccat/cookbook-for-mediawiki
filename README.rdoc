@@ -1,0 +1,8 @@
+= DESCRIPTION:
+  Installs/Configures/backups/restores mediawiki.
+= REQUIREMENTS:
+   mysql, php and apache2 
+= ATTRIBUTES:
+
+= USAGE:
+
