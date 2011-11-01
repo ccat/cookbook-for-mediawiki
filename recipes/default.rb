@@ -36,8 +36,8 @@ script "set_mediawiki" do
   sed -e "s/maintenance\\/install.php/#{node[:mediawiki][:url]}/g" LocalSettings_autogenerate.php > LocalSettings_temp.php
   sed -e "/\\$wgEmergencyContact/D" LocalSettings_temp.php > LocalSettings_temp2.php
   sed -e "/\\$wgPasswordSender/D" LocalSettings_temp2.php > LocalSettings.php
-  echo "\\$wgEmergencyContact = #{node[:mediawiki][:email]}" >> LocalSettings.php
-  echo "\\$wgPasswordSender = #{node[:mediawiki][:email]}" >> LocalSettings.php
+  echo "\\$wgEmergencyContact = \\"#{node[:mediawiki][:email]}\\";" >> LocalSettings.php
+  echo "\\$wgPasswordSender = \\"#{node[:mediawiki][:email]}\\";" >> LocalSettings.php
   rm -rf LocalSettings_temp.php
   rm -rf LocalSettings_temp2.php
   EOH

@@ -1,8 +1,10 @@
 = DESCRIPTION:
-  Installs/Configures/backups/restores mediawiki.
+  Installs/backups/restores mediawiki.
 = REQUIREMENTS:
-   mysql, php and apache2 
+  mysql, php, apache2 and wget
 = ATTRIBUTES:
 
 = USAGE:
-
+  Basic settings are stored in attribute, so overwrite it if needed.
+  Backup will be done by cron periodically, such as hourly, daily, weekly, monthly.
+  When restore recipe find backup.sql on mediawiki directory, it will be restored and deleted.
