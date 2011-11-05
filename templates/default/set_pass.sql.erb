@@ -1,3 +1,3 @@
-SET PASSWORD for <%= node[:mediawiki][:dbuser] %>@"<%= node[:mediawiki][:dbserver] %>" = PASSWORD('<%= node[:mediawiki][:dbpass] %>');
+SET PASSWORD for <%= node[:mediawiki][:wgDBuser] %>@"<%= node[:mediawiki][:wgDBserver] %>" = PASSWORD('<%= node[:mediawiki][:wgDBpassword] %>');
 
 

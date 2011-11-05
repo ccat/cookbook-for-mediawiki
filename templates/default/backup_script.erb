@@ -2,5 +2,10 @@
 
 TDAY=`date +%Y%m%d`
 
-mysqldump -h <%= node[:mediawiki][:dbserver] %>  -u <%= node[:mediawiki][:dbuser] %> -p<%= node[:mediawiki][:dbpass] %> <%= node[:mediawiki][:dbname] %> -c > <%= node[:mediawiki][:backup_folder] %>backup_$TDAY.sql
+mysqldump -h <%= node[:mediawiki][:dbserver] %>  -u <%= node[:mediawiki][:dbuser] %> -p<%= node[:mediawiki][:dbpass] %> <%= node[:mediawiki][:dbname] %> -c > <%= node[:mediawiki][:backup_folder] %>/backup_$TDAY.sql
+
+cd <%= node[:mediawiki][:directory] %>
+php maintenance/dumpBackup.php --full > backup.xml
+tar zcvf <%= node[:mediawiki][:backup_folder] %>/backup_$TDAY.tar.gz LocalSettings.php images skins extensions  backup.xml
+rm -rf backup.xml
 
