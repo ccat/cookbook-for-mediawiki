@@ -54,3 +54,4 @@ default[:mediawiki][:backup_folder] ="/var/backup/mediawiki"
 default[:mediawiki][:backup_frequency] ="weekly"
 #default[:mediawiki][:backup_frequency] ="monthly"
 
+default[:mediawiki][:access2config_folder] = "false"

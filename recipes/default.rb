@@ -52,6 +52,31 @@ template node[:mediawiki][:directory]+"/LocalSettings.php" do
  mode "0640"
 end
 
+directory node[:mediawiki][:directory]+"/config" do
+  owner "apache"
+  group "apache"
+  mode "0755"
+  only_if {node[:mediawiki][:access2config_folder]=="true"}
+end
 
+directory node[:mediawiki][:directory]+"/mw-config" do
+  owner "apache"
+  group "apache"
+  mode "0755"
+  only_if {node[:mediawiki][:access2config_folder]=="true"}
+end
 
+directory node[:mediawiki][:directory]+"/config" do
+  owner "apache"
+  group "apache"
+  mode "0000"
+  only_if {node[:mediawiki][:access2config_folder]=="false"}
+end
+
+directory node[:mediawiki][:directory]+"/mw-config" do
+  owner "apache"
+  group "apache"
+  mode "0000"
+  only_if {node[:mediawiki][:access2config_folder]=="false"}
+end
 
