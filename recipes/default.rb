@@ -8,6 +8,8 @@
 ::Chef::Recipe.send(:include, Opscode::OpenSSL::Password)
 include_recipe "mysql::client"
 
+node.set_unless[:mediawiki][:installdbPass] = node[:mysql][:server_root_password]
+
 node.set_unless[:mediawiki][:wgDBpassword] = secure_password
 node.set_unless[:mediawiki][:dbAdminPass] = secure_password
 node.set_unless[:mediawiki][:wgSecretKey] = secure_password
@@ -29,6 +31,7 @@ remote_file "/tmp/mediawiki-1.17.0.tar.gz" do
  not_if do File.exists?(node[:mediawiki][:directory]) end
 end
 
+
 script "set_mediawiki" do
   interpreter "bash"
   user "root"
@@ -37,7 +40,7 @@ script "set_mediawiki" do
   code <<-EOH
   tar -zxf mediawiki-1.17.0.tar.gz
   mv mediawiki-1.17.0 #{node[:mediawiki][:directory]}
-  chown -R apache:apache #{node[:mediawiki][:directory]}
+  chown -R #{node[:apache][:user]}:#{node[:apache][:group]} #{node[:mediawiki][:directory]}
   cd #{node[:mediawiki][:directory]}
   php maintenance/install.php --dbname #{node[:mediawiki][:wgDBname]} --dbpass #{node[:mediawiki][:wgDBpassword]}  --dbserver #{node[:mediawiki][:wgDBserver]} --dbuser #{node[:mediawiki][:wgDBuser]} --installdbpass #{node[:mediawiki][:installdbPass]}  --pass #{node[:mediawiki][:dbAdminPass]} --installdbuser root --lang #{node[:mediawiki][:wgLanguageCode]}  #{node[:mediawiki][:wgSitename]} #{node[:mediawiki][:dbAdminUser]}
   mysql -u root -p#{node[:mediawiki][:installdbPass]} < /tmp/set_pass.sql
@@ -45,38 +48,41 @@ script "set_mediawiki" do
   EOH
 end
 
+userName=node[:apache][:user]
+groupName=node[:apache][:group]
+
 template node[:mediawiki][:directory]+"/LocalSettings.php" do
  source "LocalSettings.php.erb"
- owner "apache"
- group "apache"
+ owner userName
+ group groupName
  mode "0640"
 end
 
 directory node[:mediawiki][:directory]+"/config" do
-  owner "apache"
-  group "apache"
+  owner userName
+  group groupName
   mode "0755"
   only_if {node[:mediawiki][:access2config_folder]=="true"}
 end
 
 directory node[:mediawiki][:directory]+"/mw-config" do
-  owner "apache"
-  group "apache"
+  owner userName
+  group groupName
   mode "0755"
   only_if {node[:mediawiki][:access2config_folder]=="true"}
 end
 
 directory node[:mediawiki][:directory]+"/config" do
-  owner "apache"
-  group "apache"
-  mode "0000"
+  owner userName
+  group groupName
+  mode "0400"
   only_if {node[:mediawiki][:access2config_folder]=="false"}
 end
 
 directory node[:mediawiki][:directory]+"/mw-config" do
-  owner "apache"
-  group "apache"
-  mode "0000"
+  owner userName
+  group groupName
+  mode "0400"
   only_if {node[:mediawiki][:access2config_folder]=="false"}
 end
 

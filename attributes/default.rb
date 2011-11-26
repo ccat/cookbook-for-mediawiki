@@ -45,7 +45,8 @@ default[:mediawiki][:wgDiff3] = "/usr/bin/diff3"
 default[:mediawiki][:wgResourceLoaderMaxQueryLength] = "-1"
 
 default[:mediawiki][:dbAdminUser] = "admin"
-default[:mediawiki][:installdbPass] = node[:mysql][:server_root_password]
+#default[:mediawiki][:installdbPass] = node[:mysql][:server_root_password]
+default[:mediawiki][:installdbPass] = ""
 default[:mediawiki][:dbAdminPass] = ""
 
 default[:mediawiki][:backup_folder] ="/var/backup/mediawiki"
@@ -55,3 +56,6 @@ default[:mediawiki][:backup_frequency] ="weekly"
 #default[:mediawiki][:backup_frequency] ="monthly"
 
 default[:mediawiki][:access2config_folder] = "false"
+
+default[:mediawiki][:userLocalSettings] = [""]
+

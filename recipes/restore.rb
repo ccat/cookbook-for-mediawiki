@@ -24,6 +24,9 @@ script "restore_mediawiki_by_tar_gz" do
   code <<-EOH
   cd #{node[:mediawiki][:directory]}
   tar xvzf backup.tar.gz
+  chown -R apache:apache images
+  chown -R apache:apache skins 
+  chown -R apache:apache extensions
   php maintenance/importDump.php backup.xml
   php maintenance/rebuildrecentchanges.php
   rm -rf backup.xml
